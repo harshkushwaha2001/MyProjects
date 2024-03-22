@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+</head>
+<style>
+    h2 {
+        text-align: center;
+        padding: 10px;
+        border: 4px double black;
+        background-color: white;
+        border-radius: 10px;
+        width: 50vw;
+        margin: 20px auto 20px auto;
+
+    }
+
+    form {
+        text-align: center;
+        border: 2px solid black;
+        border-radius: 10px;
+        width: 25vw;
+        margin: auto;
+        padding: 10px;
+        background-color: white;
+    }
+
+    #result {
+        /* text-align: center; */
+        border: 2px solid black;
+        border-radius: 10px;
+        width: 25vw;
+        padding: 10px;
+        margin: 30px auto 30px auto;
+        background-color: white;
+    }
+
+    #reference {
+
+        border: 2px solid black;
+        border-radius: 10px;
+        width: 50vw;
+        padding: 10px;
+        margin: 30px auto 30px auto;
+        background-color: white;
+    }
+
+    button {
+        /* width: 65px; */
+        border: 4px double black;
+        border-radius: 5px;
+        background-color: white;
+        font-weight: bolder;
+        margin: 10px;
+    }
+
+    input {
+        border: 0;
+        border-bottom: 2px solid black;
+        margin-left: 20px;
+    }
+
+    #mu,
+    #us {
+        margin: 10px;
+    }
+</style>
+
+<body>
+    <h2>BMI Calculator</h2>
+    <div id="inp">
+        <form>
+            <label for="mu">Metric Units</label>
+            <input type="radio" name="unit" id="mu" checked="checked" onclick="change(0)">
+            <label for="us">US Units</label>
+            <input type="radio" name="unit" id="us" onclick="change(1)"><br>
+            <label for="weight">Enter Weight</label>
+            <input type="text" id="weight"><span id="we">kg</span><br>
+            <label for="height">Enter Height</label>
+            <input type="text" id="height"><span id="he">cm</span><br>
+            <button onclick="calculate()">Calculate</button>
+            <button onclick="clear()">Clear</button>
+        </form>
+    </div>
+    <div id="result">
+        <h3 style="text-align: center;">
+            Results...
+        </h3>
+        <hr>
+        <div id="res">
+
+        </div>
+
+    </div>
+    <div id="reference">
+        <h3 style="text-align: center;">
+            Reference...
+        </h3>
+        <hr>
+        <p>Body Mass Index (BMI) can be calculated using both metric and US customary units. Here's how you can
+            calculate it in both systems:<br>
+
+            Metric Units (kg/m²):<br>
+            BMI = weight (kg) / (height (m) * height (m))<br>
+            <br>
+            US Units (lb/in²):<br>
+            BMI = (weight (lb) / (height (in) * height (in))) * 703<br>
+        <h3>Scale</h3>
+        <ul>
+            <li><b>Underweight:</b><br>
+
+                BMI less than 18.5 kg/m²<br>
+                Potential health issues: Malnutrition, weakened immune system, osteoporosis, fertility problems.</li>
+            <li><b>Normal Weight:</b><br>
+
+                BMI from 18.5 to 24.9 kg/m²<br>
+                Generally considered healthy weight range.<br>
+                Lower risk of weight-related health issues compared to other BMI categories.</li>
+            <li><b>Overweight:</b><br>
+
+                BMI from 25.0 to 29.9 kg/m²<br>
+                Potential health issues: Increased risk of heart disease, type 2 diabetes, high blood pressure, stroke,
+                certain types of cancer.</li>
+            <li><b>Obesity (Class 1):</b><br>
+
+                BMI from 30.0 to 34.9 kg/m²<br>
+                Potential health issues: Elevated risk of heart disease, type 2 diabetes, high blood pressure, stroke,
+                certain types of cancer, sleep apnea.</li>
+            <li> <b>Obesity (Class 2):</b><br>
+
+                BMI from 35.0 to 39.9 kg/m²<br>
+                Potential health issues: Higher risk of severe heart disease, type 2 diabetes, high blood pressure,
+                stroke, certain types of cancer, severe sleep apnea, osteoarthritis.</li>
+            <li><b>Obesity (Class 3 - Morbid Obesity):</b><br>
+
+                BMI 40.0 kg/m² and above<br>
+                Potential health issues: Extremely high risk of heart disease, type 2 diabetes, high blood pressure,
+                stroke, certain types of cancer, severe sleep apnea, osteoarthritis, reduced life expectancy.</li>
+        </ul>
+        </p>
+    </div>
+</body>
+<script>
+    const change = (e) => {
+        if (e == 0) {
+            document.getElementById('we').innerHTML = "kg";
+            document.getElementById('he').innerHTML = "cm";
+        } else {
+            document.getElementById('we').innerHTML = "lb";
+            document.getElementById('he').innerHTML = "in";
+        }
+    }
+    const clear = () => {
+        document.getElementById('res').innerHTML = "";
+        document.getElementById('height').value = "";
+        document.getElementById('weight').value = "";
+        event.preventDefault();
+    }
+    const calculate = () => {
+        let height = document.getElementById('height').value;
+        let weight = document.getElementById('weight').value;
+        if (height == NaN || weight == NaN || height <= 0 || weight <= 0) {
+            alert("Enter Valid Measurements !!!");
+            return;
+        }
+        let bmi = 0;
+        if (document.getElementById('we').innerHTML == "kg") {
+            bmi = weight / (height * height);
+        } else {
+            bmi = weight * 703 / (height * height);
+        }
+        let u = `<b>Calculated BMI:</b> ${bmi.toFixed(2)} kg/m<sup>2</sup>`;
+        let y;
+        if (bmi < 18.5) {
+            y = "<br><b>Underweight:</b> Potential health issues include malnutrition, weakened immune system, osteoporosis, fertility problems.";
+        } else if (bmi >= 18.5 && bmi < 25.0) {
+            y = "<br><b>Normal Weight:</b> Generally considered a healthy weight range.";
+        } else if (bmi >= 25.0 && bmi < 30.0) {
+            y = "<br><b>Overweight:</b> Potential health issues include increased risk of heart disease, type 2 diabetes, high blood pressure, stroke, certain types of cancer.";
+        } else if (bmi >= 30.0 && bmi < 35.0) {
+            y = "<br><b>Obesity (Class 1):</b> Potential health issues include elevated risk of heart disease, type 2 diabetes, high blood pressure, stroke, certain types of cancer, sleep apnea.";
+        } else if (bmi >= 35.0 && bmi < 40.0) {
+            y = "<br><b>Obesity (Class 2):</b> Potential health issues include higher risk of severe heart disease, type 2 diabetes, high blood pressure, stroke, certain types of cancer, severe sleep apnea, osteoarthritis.";
+        } else {
+            y = "<br><b>Obesity (Class 3 - Morbid Obesity):</b> Potential health issues include extremely high risk of heart disease, type 2 diabetes, high blood pressure, stroke, certain types of cancer, severe sleep apnea, osteoarthritis, reduced life expectancy.";
+        }
+        document.getElementById('res').innerHTML = `${u}${y}`;
+        event.preventDefault();
+    }
+</script>
+
+</html>
