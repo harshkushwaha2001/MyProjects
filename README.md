@@ -1,2 +1,2 @@
 # MyProjects
-It have all my personal projects
+It have all my personal projects.
